@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import useReducer from '../features/userSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    // the user is gonna have a userSlice call that is gonna get pulled  out by the userReducer
+    user: useReducer,
   },
 });

@@ -12,7 +12,7 @@ import firebase from 'firebase'; // to be bale to use the timestamp
 
 function Feeds () {
 // I wonna be able tu use the content written in the input placed in the form
-const [input, setInput] = useState('');
+const [inputMsg, setInputMsg] = useState('');
 
 const [posts, setPosts] = useState([]);
 
@@ -22,13 +22,15 @@ useEffect(() => {
     // everytime a post get added, deleted , changed ..ect give me a new snapshot of teh collection 
     db.collection('posts').orderBy('timestamp', 'desc').onSnapshot( snapshot => (
         // then everytime the post change I wonna update my post state in the db collection
+        
         setPosts(
             snapshot.docs.map((doc) => (
-                // for every doc mapped in the collection return an object 
+                
+                // for every doc mapped in the collection return an object.
                 {
                 // Getting the post id
                 id: doc.id,
-                // Getting all data store behind the post
+                // Getting all data storeD in the doc.data()
                 data: doc.data(),
             }
             ))
@@ -36,25 +38,25 @@ useEffect(() => {
         
     ));
 }, []);
-console.log({setPosts});
+
 // if using [] as second argument  ,
-// the code inside the useEffect will be fire of when the component is loading but never after that 
+// the code inside the useEffect will be fire of when the component is loading ( page refesh) but never after that 
 // whne the feed Component loads or/and in our hour case when it re-render , 
 // that s why we re passing the second argument []
 
 const sendPost = (e) => {
-    // e.preventDefault(); : so the page doesn't refresh on 
+    // e.preventDefault(); : so the page doesn't refresh on each event (e)
     e.preventDefault();
     db.collection('posts').add({
         name: "SaiYann",
-        description: "test message post in db",
-        message: input,
+        description: "Dev Web Fullstack JS",
+        message: inputMsg,
         photoUrl: '',
         // using the serverTimestamp to be sure all user are reference from teh same clock no matter their geoLoc
         timestamp:firebase.firestore.FieldValue.serverTimestamp()
     });
     // Seting up the input field empty after submitting
-    setInput('');
+    setInputMsg('');
 };
 
 return (
@@ -65,9 +67,9 @@ return (
                 <CreateIcon /> 
                 <form >
                     <input 
-                    value={input} 
-                    //{/* the valuie of my input in my input  stated in my usetate declaration above*/}
-                    onChange={ e => setInput(e.target.value)}
+                    value={inputMsg} 
+                    //{/* the valuie of my inputMsg in my input  stated in my usetate declaration above*/}
+                    onChange={ e => setInputMsg(e.target.value)}
                     // on change to avoid the mapping to refesh to fast and blockus to writte in the input field
                     // onChange methode linked to an event e allows us to force the update of input state at every key uses on teh keyboard while typing
                     type="text" placeholder="Write a message" />

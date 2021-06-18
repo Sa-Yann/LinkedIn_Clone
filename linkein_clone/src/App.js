@@ -11,7 +11,8 @@ import { auth } from './firebase';
 
 
 function App() {
-
+  
+const user = useSelector(selectUser);
 const dispatch = useDispatch();
 
 useEffect(() => {
@@ -39,7 +40,7 @@ auth.onAuthStateChanged((userAuth)=> {
 
 },[]);
 
-const user = useSelector(selectUser);
+
 console.log('user:', user);
 
 

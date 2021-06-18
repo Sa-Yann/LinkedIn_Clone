@@ -14,7 +14,9 @@ function Post (props) {
     return (
         <div className="post">
             <div className="post__header">
-                <Avatar />
+                <Avatar src={props.photoUrl}>
+                    {props.name[0]}
+                </Avatar>
                 {/* Emmet formula:   .post__info>h2+p     */}
                 <div className="post__info">
                     <h2>{props.name}</h2>

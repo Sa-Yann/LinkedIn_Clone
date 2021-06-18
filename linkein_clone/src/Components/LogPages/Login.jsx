@@ -15,10 +15,21 @@ function Login() {
 
 
 
-    // const loginToApp = (e) => {
-    //     e.preventDefault();
+    const loginToApp = (e) => {
+        e.preventDefault();
+        auth.signInWithEmailAndPassword(email,password)
+        .then((userAuth) => {
+            dispatch(login({
+                email: userAuth.user.email,
+                uid: userAuth.user.uid,
+                displayName: userAuth.user.displayName,
+                profilePic: userAuth.user.photoURL
+            }))
+        }).catch((error) => alert(error))
 
-    // };
+    };
+
+
     const register = () => {
         
         if(!name) {
@@ -52,7 +63,7 @@ function Login() {
         <div className="login">
             {/* <h4>I'm the LoginPage</h4> */}
             <img 
-            src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c528.png" 
+            src="https://www.treez-data.fr/wp-content/uploads/2019/08/580b57fcd9996e24bc43c528.png" 
             alt="linkedIn_logo" 
             />
             <form>
@@ -76,7 +87,9 @@ function Login() {
                 value={password} 
                 placeholder="password"
                 type="password" />
-                <button type="submit"> Sign In</button>   
+                <button 
+                onClick={loginToApp}
+                type="submit"> Sign In</button>   
             </form>
             <p>
                 Not a member?:{" "}

@@ -26,8 +26,8 @@
 }
 
 
-.feed__input input {
-    border: none;
+.feed__input form input {
+    border: hidden;
     flex: 1;
     margin-left: 10px;
     outline-width: 0;

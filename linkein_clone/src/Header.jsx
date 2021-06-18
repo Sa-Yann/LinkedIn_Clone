@@ -6,10 +6,21 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount'
 import HeaderOption from './Components/HeaderOption';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 import ChatIcon from '@material-ui/icons/Chat';
-import NotificationsIcon from '@material-ui/icons/Notifications'
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import {useDispatch} from 'react-redux';
+import { auth } from './firebase';
+import {logout} from './features/userSlice';
 
 
 function Header () {
+    const dispatch = useDispatch();
+    
+
+    const logOutOfApp = () => {
+        dispatch(logout());
+        auth.signOut();
+    };
+
     return (
         <div className="header">
                 {/* <h1 className="title">this is the Header</h1> */}
@@ -31,7 +42,11 @@ function Header () {
                     <HeaderOption Icon={BusinessCenterIcon} title="Jobs"/>
                     <HeaderOption Icon={ChatIcon} title="Messaging" />
                     <HeaderOption Icon={NotificationsIcon} title="Notifications" />
-                    <HeaderOption avatar="https://avatars.githubusercontent.com/u/49900328?v=4" title="Me"/>
+                    <HeaderOption 
+                        avatar={true}
+                        // avatar={"https://avatars.githubusercontent.com/u/49900328?v=4"} 
+                        title="Me"
+                        onClick={logOutOfApp}/>
                 </div>
         </div>
     )

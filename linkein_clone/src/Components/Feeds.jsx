@@ -9,12 +9,15 @@ import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay';
 import Post from './Post';
 import { db } from './../firebase';
 import firebase from 'firebase'; // to be bale to use the timestamp
+import {useSelector} from 'react-redux';
+import {selectUser} from './../features/userSlice';
 
 function Feeds () {
+    const user = useSelector(selectUser)
 // I wonna be able tu use the content written in the input placed in the form
-const [inputMsg, setInputMsg] = useState('');
+    const [inputMsg, setInputMsg] = useState('');
 
-const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState([]);
 
 useEffect(() => {
     // 2.21.00
@@ -48,10 +51,10 @@ const sendPost = (e) => {
     // e.preventDefault(); : so the page doesn't refresh on each event (e)
     e.preventDefault();
     db.collection('posts').add({
-        name: "SaiYann",
-        description: "Dev Web Fullstack JS",
+        name: user.displayName,
+        description: user.email,
         message: inputMsg,
-        photoUrl: '',
+        photoUrl: user.photoUrl || user.displayName[0],
         // using the serverTimestamp to be sure all user are reference from teh same clock no matter their geoLoc
         timestamp:firebase.firestore.FieldValue.serverTimestamp()
     });

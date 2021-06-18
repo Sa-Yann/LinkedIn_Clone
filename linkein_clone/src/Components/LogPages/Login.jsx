@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import './Login.css';
 import {auth} from './../../firebase';
+import {useDispatch} from 'react-redux';
+import { login } from '../../features/userSlice';
 
 function Login() {
     // I wonanknow if there is a name in the name field or not so I create a state
@@ -9,18 +11,40 @@ function Login() {
     const [email, setEmail] =  useState('');
     const [password, setPassword] =  useState('');
     const [profilePic, setProfilePic] =  useState('');
+    const dispatch = useDispatch()
 
 
 
-    const loginToApp = (e) => {
-        e.preventDefault();
+    // const loginToApp = (e) => {
+    //     e.preventDefault();
 
-    };
+    // };
     const register = () => {
         
         if(!name) {
             return alert('You Nedd to insert a full name!!!');
         }
+        // createUserWithEmailAndPassword = firebase auth method that generate user authentification object
+        auth.createUserWithEmailAndPassword(email,password)
+        .then((userAuth) => {
+            userAuth.user.updateProfile({
+                displayName: name,
+                photoURL: profilePic
+            })
+            // I wonna push the user into teh redux Store
+            // For that I need to  dispatch/send/shoot the user object from the login to the redux userStore
+            // I want to dispacth teh user in teh Login Action
+            .then(()=> {
+                // the login below is the action imported from the userSlice
+                dispatch(login({
+                    // we re pusshing an email , uid displayName and photo Url from Firebase to our dataStore
+                    email: userAuth.user.email,
+                    uid: userAuth.user.uid,
+                    displayName: name,
+                    photoURL: profilePic
+                }));
+            });
+        }).catch((error) => alert(error));
     };
 
 

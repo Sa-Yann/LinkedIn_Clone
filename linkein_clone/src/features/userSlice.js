@@ -30,6 +30,6 @@ export const { login, logout } = userSlice.actions;
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 
 // We wonna pull the user variable from the userSlice
-export const selectUser = (state) => state.user.value;
+export const selectUser = (state) => state.user.user;
 
 export default userSlice.reducer;
